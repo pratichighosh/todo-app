@@ -1,0 +1,62 @@
+export const darkTheme = {
+    name: 'dark',
+    colors: {
+      primary: '#81C784',
+      secondary: '#64B5F6',
+      background: '#121212',
+      surface: '#1E1E1E',
+      text: '#FFFFFF',
+      textSecondary: '#B0B0B0',
+      border: '#333333',
+      error: '#F44336',
+      success: '#4CAF50',
+      warning: '#FFC107',
+      info: '#2196F3',
+      highPriority: '#F44336',
+      mediumPriority: '#FF9800',
+      lowPriority: '#4CAF50',
+      completedTask: '#757575',
+      shadow: 'rgba(0, 0, 0, 0.3)',
+      hover: 'rgba(255, 255, 255, 0.05)',
+    },
+    typography: {
+      fontFamily: "'Roboto', 'Helvetica', 'Arial', sans-serif",
+      fontSize: {
+        xs: '0.75rem',
+        sm: '0.875rem',
+        md: '1rem',
+        lg: '1.25rem',
+        xl: '1.5rem',
+      },
+      fontWeight: {
+        light: 300,
+        regular: 400,
+        medium: 500,
+        bold: 700,
+      },
+    },
+    spacing: {
+      xs: '0.25rem',
+      sm: '0.5rem',
+      md: '1rem',
+      lg: '1.5rem',
+      xl: '2rem',
+    },
+    borderRadius: {
+      sm: '0.25rem',
+      md: '0.5rem',
+      lg: '1rem',
+      full: '9999px',
+    },
+    transitions: {
+      fast: '0.2s',
+      normal: '0.3s',
+      slow: '0.5s',
+    },
+    boxShadow: {
+      small: '0 2px 4px rgba(0, 0, 0, 0.2)',
+      medium: '0 4px 8px rgba(0, 0, 0, 0.2)',
+      large: '0 8px 16px rgba(0, 0, 0, 0.2)',
+    },
+  };
+  
