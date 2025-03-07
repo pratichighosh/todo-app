@@ -1,12 +1,26 @@
-# React + Vite
+Todo App
+📋 Project Overview
+A full-featured Todo application designed to help users manage their tasks efficiently, with robust authentication and intuitive task management.
+✨ Features
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+User Authentication (Sign Up / Login)
+Create, Read, Update, Delete (CRUD) Tasks
+Task Categorization
+Task Priority Levels
+Task Status Tracking
+Responsive Design
+Dark/Light Theme Support
 
-Currently, two official plugins are available:
+🚀 Technologies Used
+Frontend
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+React
+Redux (State Management)
+React Router
+Tailwind CSS
+Axios (API Requests)
 
-## Expanding the ESLint configuration
 
-If you are developing a production application, we recommend using TypeScript and enable type-aware lint rules. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+📞 Contact
+Pratichi Ghosh - pratichighosh20032gmail.com
+Project Link: https://github.com/pratichighosh/todo-app
