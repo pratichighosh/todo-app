@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux';
 // Import the image properly
 import defaultAvatar from '../../assets/images/default-avatar.png';
 
-const Sidebar = () => {
+const Sidebar = ({ isOpen, closeSidebar }) => {
   const { tasks } = useSelector(state => state.tasks);
   const { user } = useSelector(state => state.auth);
   const completedTasks = tasks.filter(task => task.completed).length;
@@ -17,12 +17,39 @@ const Sidebar = () => {
   const strokeDasharray = circumference;
   const strokeDashoffset = circumference - (completionPercentage / 100) * circumference;
   
+  // Close sidebar on mobile when clicking a link
+  const handleLinkClick = () => {
+    if (window.innerWidth <= 1024 && isOpen && closeSidebar) {
+      closeSidebar();
+    }
+  };
+  
   return (
-    <aside className="sidebar">
-     
+    <aside className={`sidebar ${isOpen ? 'open' : ''}`}>
+      {/* Mobile close button */}
+      <div className="sidebar-mobile-header d-md-none">
+        <button 
+          className="close-sidebar-button" 
+          onClick={closeSidebar}
+          aria-label="Close sidebar"
+          style={{
+            position: 'absolute',
+            top: '1rem',
+            right: '1rem',
+            background: 'transparent',
+            border: 'none',
+            fontSize: '1.5rem',
+            cursor: 'pointer',
+            color: 'var(--text-color)'
+          }}
+        >
+          ✕
+        </button>
+      </div>
+      
       <div className="sidebar-user">
         <img
-          src={defaultAvatar} // Use the imported image
+          src={defaultAvatar}
           alt="User Avatar"
           className="sidebar-avatar"
           style={{
@@ -42,14 +69,22 @@ const Sidebar = () => {
       <nav className="sidebar-nav">
         <ul className="nav-list">
           <li className="nav-item">
-            <NavLink to="/" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+            <NavLink 
+              to="/" 
+              className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+              onClick={handleLinkClick}
+            >
               <span className="nav-icon">📊</span>
               <span className="nav-text">Dashboard</span>
             </NavLink>
           </li>
           
           <li className="nav-item">
-            <NavLink to="/calendar" className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}>
+            <NavLink 
+              to="/calendar" 
+              className={({ isActive }) => isActive ? 'nav-link active' : 'nav-link'}
+              onClick={handleLinkClick}
+            >
               <span className="nav-icon">📅</span>
               <span className="nav-text">Calendar</span>
             </NavLink>
@@ -110,7 +145,8 @@ const Sidebar = () => {
         </div>
       </div>
       
-      <div className="categories-section">
+      {/* Categories section - hide on very small screens */}
+      <div className="categories-section d-none d-sm-block">
         <h3 className="categories-title">Categories</h3>
         <ul className="categories-list">
           <li className="category-item">

@@ -1055,3 +1055,368 @@ input[type="date"]::-webkit-calendar-picker-indicator {
     right: 0;
   }
 }
+/* Enhanced Responsive Styles for Todo App */
+
+/* Base responsive improvements */
+:root {
+  /* Adding viewport-based fluid spacing units */
+  --spacing-fluid-sm: clamp(0.5rem, 1vw, 0.75rem);
+  --spacing-fluid-md: clamp(1rem, 2vw, 1.5rem);
+  --spacing-fluid-lg: clamp(1.5rem, 3vw, 2rem);
+  
+  /* Fluid typography */
+  --font-size-sm: clamp(0.75rem, 0.7rem + 0.25vw, 0.875rem);
+  --font-size-base: clamp(0.875rem, 0.8rem + 0.375vw, 1rem);
+  --font-size-lg: clamp(1rem, 0.95rem + 0.25vw, 1.125rem);
+  --font-size-xl: clamp(1.25rem, 1.2rem + 0.25vw, 1.5rem);
+}
+
+/* Global responsive improvements */
+body {
+  font-size: var(--font-size-base);
+  overflow-x: hidden;
+}
+
+/* Improved Mobile Sidebar */
+.sidebar {
+  width: 240px;
+  transition: transform 0.3s ease, width 0.3s ease;
+  z-index: 40;
+}
+
+/* App Container Structure */
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.content-wrapper {
+  display: flex;
+  flex: 1;
+  position: relative;
+  overflow-x: hidden;
+}
+
+/* Header Responsiveness Improvements */
+.header {
+  padding: var(--spacing-fluid-md);
+  position: sticky;
+  top: 0;
+  z-index: 30;
+}
+
+.header-title {
+  font-size: var(--font-size-xl);
+}
+
+/* Task Item Responsiveness */
+.task-item {
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.task-item-left {
+  flex: 1;
+  min-width: 60%;
+}
+
+/* Task Grid Responsiveness */
+.task-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1rem;
+}
+
+/* Calendar Responsiveness */
+.calendar-cell {
+  min-height: 80px;
+  padding: var(--spacing-fluid-sm);
+}
+
+.calendar-task {
+  font-size: var(--font-size-sm);
+}
+
+/* Form Controls Responsiveness */
+.form-group input,
+.form-group select,
+.form-group textarea {
+  padding: var(--spacing-fluid-sm);
+}
+
+/* Mobile Menu Button */
+.menu-toggle {
+  display: none;
+  cursor: pointer;
+  background: none;
+  border: none;
+  padding: 0.5rem;
+  font-size: 1.5rem;
+  color: var(--text-color);
+  z-index: 50;
+}
+
+/* Enhanced Media Queries */
+
+/* Tablets */
+@media (max-width: 1024px) {
+  .content-wrapper {
+    position: relative;
+  }
+  
+  .sidebar {
+    position: fixed;
+    left: -240px;
+    height: calc(100vh - 60px);
+    transition: left 0.3s ease;
+    box-shadow: none;
+  }
+  
+  .sidebar.open {
+    left: 0;
+    box-shadow: var(--shadow);
+  }
+  
+  .overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 35;
+  }
+  
+  .overlay.active {
+    display: block;
+  }
+  
+  .menu-toggle {
+    display: block;
+  }
+  
+  .task-grid {
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  }
+}
+
+/* Mobile Phones */
+@media (max-width: 768px) {
+  .header {
+    padding: 0.75rem 1rem;
+  }
+  
+  .header-left {
+    flex: 1;
+    justify-content: flex-start;
+  }
+  
+  .header-right {
+    justify-content: flex-end;
+  }
+  
+  .header-icons {
+    gap: 8px;
+  }
+  
+  .header-title {
+    font-size: clamp(1.1rem, 5vw, 1.25rem);
+  }
+  
+  .sidebar {
+    width: 75%;
+    max-width: 280px;
+  }
+  
+  .main-content {
+    padding: var(--spacing-fluid-sm);
+  }
+  
+  .task-grid {
+    grid-template-columns: 1fr;
+  }
+  
+  .task-input-form {
+    margin-bottom: 1rem;
+  }
+  
+  .input-container {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .add-task-btn {
+    width: 100%;
+    margin-left: 0;
+  }
+  
+  /* Improve calendar on mobile */
+  .calendar-days, .calendar-row {
+    font-size: var(--font-size-sm);
+  }
+  
+  .calendar-cell {
+    min-height: 60px;
+    padding: 0.25rem;
+  }
+  
+  .calendar-date {
+    padding: 0.15rem;
+  }
+  
+  /* Modal responsiveness */
+  .modal-content {
+    width: 95%;
+    max-width: none;
+    padding: 1rem;
+  }
+  
+  .form-actions {
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  
+  .cancel-btn, .save-btn {
+    width: 100%;
+  }
+}
+
+/* Small mobile devices */
+@media (max-width: 480px) {
+  .header-title {
+    font-size: 1rem;
+  }
+  
+  .user-name, .avatar {
+    display: none;
+  }
+  
+  .task-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .task-item-left {
+    width: 100%;
+    margin-bottom: 0.5rem;
+  }
+  
+  .task-actions {
+    align-self: flex-end;
+  }
+  
+  /* Priority/category indicators */
+  .category-color {
+    width: 10px;
+    height: 10px;
+  }
+  
+  /* Auth pages */
+  .auth-card {
+    padding: 1.25rem;
+  }
+}
+
+/* Large screens */
+@media (min-width: 1440px) {
+  .content-wrapper {
+    max-width: 1600px;
+    margin: 0 auto;
+  }
+  
+  .task-grid {
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+  }
+}
+
+/* Add this to your JavaScript to make the sidebar toggle work */
+/* This is just CSS - you'll need to implement the toggle functionality in JS */
+
+/* Additional utility classes for responsive design */
+.d-none {
+  display: none !important;
+}
+
+.d-block {
+  display: block !important;
+}
+
+@media (max-width: 768px) {
+  .d-md-none {
+    display: none !important;
+  }
+  
+  .d-md-block {
+    display: block !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .d-sm-none {
+    display: none !important;
+  }
+  
+  .d-sm-block {
+    display: block !important;
+  }
+}
+
+/* Print styles for better printing experience */
+@media print {
+  .sidebar, .header, .calendar-task, .task-actions {
+    display: none !important;
+  }
+  
+  .main-content {
+    padding: 0;
+    margin: 0;
+    width: 100%;
+  }
+  
+  .task-item {
+    border: 1px solid #ddd;
+    break-inside: avoid;
+  }
+  
+  body {
+    background-color: white;
+    color: black;
+  }
+}
+/* Desktop view */
+.sidebar, .right-sidebar {
+  /* Normal sidebar styling */
+}
+
+/* Mobile view */
+@media (max-width: 1024px) {
+  .sidebar {
+    position: fixed;
+    left: -280px; /* Off-screen by default */
+    top: 0;
+    bottom: 0;
+    width: 280px;
+    z-index: 40;
+    transition: left 0.3s ease;
+  }
+  
+  .sidebar.open {
+    left: 0;
+  }
+  
+  .right-sidebar {
+    position: fixed;
+    right: -280px; /* Off-screen by default */
+    top: 0;
+    bottom: 0;
+    width: 280px;
+    z-index: 40;
+    transition: right 0.3s ease;
+  }
+  
+  .right-sidebar.open {
+    right: 0;
+  }
+}

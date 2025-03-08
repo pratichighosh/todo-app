@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ThemeProvider from './components/theme/ThemeProvider';
@@ -12,6 +12,8 @@ import './app.css';
 
 const App = () => {
   const { isAuthenticated } = useSelector(state => state.auth);
+  // Track viewport size to help with responsive decisions
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   
   // This ensures that the path is set to root when the app loads
   useEffect(() => {
@@ -20,6 +22,29 @@ const App = () => {
       window.history.pushState({}, '', '/');
     }
   }, []);
+  
+  // Track window resize events to update mobile status
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  // Wrapper component for protected routes that passes the isMobile prop
+  const ProtectedRoute = ({ children }) => {
+    if (!isAuthenticated) {
+      return <Navigate to="/login" replace />;
+    }
+    
+    return (
+      <Layout isMobile={isMobile}>
+        {children}
+      </Layout>
+    );
+  };
   
   return (
     <ThemeProvider>
@@ -35,13 +60,9 @@ const App = () => {
           <Route
             path="/"
             element={
-              isAuthenticated ? (
-                <Layout>
-                  <Dashboard />
-                </Layout>
-              ) : (
-                <Navigate to="/login" replace />
-              )
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
             }
           />
           
@@ -55,26 +76,18 @@ const App = () => {
           <Route
             path="/tasks"
             element={
-              isAuthenticated ? (
-                <Layout>
-                  <TasksPage />
-                </Layout>
-              ) : (
-                <Navigate to="/login" replace />
-              )
+              <ProtectedRoute>
+                <TasksPage />
+              </ProtectedRoute>
             }
           />
           
           <Route
             path="/calendar"
             element={
-              isAuthenticated ? (
-                <Layout>
-                  <CalendarPage />
-                </Layout>
-              ) : (
-                <Navigate to="/login" replace />
-              )
+              <ProtectedRoute>
+                <CalendarPage />
+              </ProtectedRoute>
             }
           />
           
