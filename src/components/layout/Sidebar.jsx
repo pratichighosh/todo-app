@@ -1,6 +1,8 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
+// Import the image properly
+import defaultAvatar from '../../assets/images/default-avatar.png';
 
 const Sidebar = () => {
   const { tasks } = useSelector(state => state.tasks);
@@ -17,10 +19,10 @@ const Sidebar = () => {
   
   return (
     <aside className="sidebar">
-      {/* Add user avatar section at the top */}
+     
       <div className="sidebar-user">
         <img
-          src="/src/assets/images/default-avatar.png"
+          src={defaultAvatar} // Use the imported image
           alt="User Avatar"
           className="sidebar-avatar"
           style={{
@@ -29,7 +31,7 @@ const Sidebar = () => {
             borderRadius: '50%',
             margin: '1rem auto',
             display: 'block',
-             boxShadow: '0 0 10px 4px rgba(33, 199, 33, 0.7)'
+            boxShadow: '0 0 10px 4px rgba(33, 199, 33, 0.7)'
           }}
         />
         <p className="sidebar-username" style={{ textAlign: 'center', marginBottom: '1rem' }}>
@@ -54,12 +56,11 @@ const Sidebar = () => {
           </li>
           
           <li className="nav-item">
-  <span className="nav-link">
-    <span className="nav-icon">✓</span>
-    <span className="nav-text">My Tasks</span>
-  </span>
-</li>
-
+            <span className="nav-link">
+              <span className="nav-icon">✓</span>
+              <span className="nav-text">My Tasks</span>
+            </span>
+          </li>
         </ul>
       </nav>
       

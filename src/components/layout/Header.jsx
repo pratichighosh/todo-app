@@ -5,6 +5,9 @@ import { logout } from '../redux/slices/authSlice';
 import ThemeToggle from '../ui/ThemeToggle';
 import ViewToggle from '../ui/ViewToggle';
 
+// Import the logo properly
+import logo from '../../assets/images/logo512.png'; // Adjust path as needed
+
 const Header = () => {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.auth);
@@ -16,7 +19,7 @@ const Header = () => {
           <span className="menu-icon">☰</span>
         </button>
         <img 
-          src="/logo512.png"
+          src={logo} // Use the imported logo
           alt="DoIt Logo"
           className="logo-image"
           style={{ height: '35px', marginRight: '8px' }}

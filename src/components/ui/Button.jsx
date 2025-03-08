@@ -1,76 +1,93 @@
 import React from 'react';
 import styled, { css } from 'styled-components';
 
+// Define fallback values to prevent undefined errors
+const getThemeValue = (props, path, fallback) => {
+  const parts = path.split('.');
+  let value = props.theme;
+  
+  for (const part of parts) {
+    if (value && value[part] !== undefined) {
+      value = value[part];
+    } else {
+      return fallback;
+    }
+  }
+  
+  return value;
+};
+
 const ButtonSizes = {
   small: css`
-    padding: ${props => `${props.theme.spacing.xs} ${props.theme.spacing.sm}`};
-    font-size: ${props => props.theme.typography.fontSize.sm};
+    padding: ${props => `${getThemeValue(props, 'spacing.xs', '0.25rem')} ${getThemeValue(props, 'spacing.sm', '0.5rem')}`};
+    font-size: ${props => getThemeValue(props, 'typography.fontSize.sm', '0.875rem')};
   `,
   medium: css`
-    padding: ${props => `${props.theme.spacing.sm} ${props.theme.spacing.md}`};
-    font-size: ${props => props.theme.typography.fontSize.md};
+    padding: ${props => `${getThemeValue(props, 'spacing.sm', '0.5rem')} ${getThemeValue(props, 'spacing.md', '1rem')}`};
+    font-size: ${props => getThemeValue(props, 'typography.fontSize.md', '1rem')};
   `,
   large: css`
-    padding: ${props => `${props.theme.spacing.md} ${props.theme.spacing.lg}`};
-    font-size: ${props => props.theme.typography.fontSize.lg};
+    padding: ${props => `${getThemeValue(props, 'spacing.md', '1rem')} ${getThemeValue(props, 'spacing.lg', '1.5rem')}`};
+    font-size: ${props => getThemeValue(props, 'typography.fontSize.lg', '1.125rem')};
   `,
 };
 
 const ButtonVariants = {
   primary: css`
-    background-color: ${props => props.theme.colors.primary};
+    background-color: ${props => getThemeValue(props, 'colors.primary', '#4cd964')};
     color: white;
     border: none;
     
     &:hover:not(:disabled) {
-      background-color: ${props => props.theme.colors.primary}dd;
+      background-color: ${props => getThemeValue(props, 'colors.primary', '#4cd964')}dd;
     }
   `,
   secondary: css`
     background-color: transparent;
-    color: ${props => props.theme.colors.primary};
-    border: 1px solid ${props => props.theme.colors.primary};
+    color: ${props => getThemeValue(props, 'colors.primary', '#4cd964')};
+    border: 1px solid ${props => getThemeValue(props, 'colors.primary', '#4cd964')};
     
     &:hover:not(:disabled) {
-      background-color: ${props => props.theme.colors.primary}11;
+      background-color: ${props => getThemeValue(props, 'colors.primary', '#4cd964')}11;
     }
   `,
   text: css`
     background-color: transparent;
-    color: ${props => props.theme.colors.primary};
+    color: ${props => getThemeValue(props, 'colors.primary', '#4cd964')};
     border: none;
-    padding: ${props => props.theme.spacing.xs};
+    padding: ${props => getThemeValue(props, 'spacing.xs', '0.25rem')};
     
     &:hover:not(:disabled) {
-      background-color: ${props => props.theme.colors.hover};
+      background-color: ${props => getThemeValue(props, 'colors.hover', 'rgba(76, 217, 100, 0.1)')};
     }
   `,
   danger: css`
-    background-color: ${props => props.theme.colors.error};
+    background-color: ${props => getThemeValue(props, 'colors.error', '#ff3b30')};
     color: white;
     border: none;
     
     &:hover:not(:disabled) {
-      background-color: ${props => props.theme.colors.error}dd;
+      background-color: ${props => getThemeValue(props, 'colors.error', '#ff3b30')}dd;
     }
   `,
 };
 
+// Using $-prefixed props (transient props) so they're not passed to the DOM
 const StyledButton = styled.button`
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: ${props => props.theme.spacing.sm};
-  border-radius: ${props => props.theme.borderRadius.md};
-  font-weight: ${props => props.theme.typography.fontWeight.medium};
+  gap: ${props => getThemeValue(props, 'spacing.sm', '0.5rem')};
+  border-radius: ${props => getThemeValue(props, 'borderRadius.md', '8px')};
+  font-weight: ${props => getThemeValue(props, 'typography.fontWeight.medium', '500')};
   cursor: pointer;
-  transition: all ${props => props.theme.transitions.fast};
+  transition: all ${props => getThemeValue(props, 'transitions.fast', '0.2s ease')};
   outline: none;
   
-  ${props => ButtonSizes[props.size || 'medium']}
-  ${props => ButtonVariants[props.variant || 'primary']}
+  ${props => ButtonSizes[props.$size || 'medium']}
+  ${props => ButtonVariants[props.$variant || 'primary']}
   
-  ${props => props.fullWidth && css`
+  ${props => props.$fullWidth && css`
     width: 100%;
   `}
   
@@ -79,23 +96,23 @@ const StyledButton = styled.button`
     cursor: not-allowed;
   }
   
-  ${props => props.iconButton && css`
+  ${props => props.$iconButton && css`
     width: ${props => {
-      switch (props.size) {
+      switch (props.$size) {
         case 'small': return '32px';
         case 'large': return '48px';
         default: return '40px';
       }
     }};
     height: ${props => {
-      switch (props.size) {
+      switch (props.$size) {
         case 'small': return '32px';
         case 'large': return '48px';
         default: return '40px';
       }
     }};
     padding: 0;
-    border-radius: ${props => props.theme.borderRadius.full};
+    border-radius: ${props => getThemeValue(props, 'borderRadius.full', '9999px')};
   `}
 `;
 
@@ -107,17 +124,18 @@ const Button = ({
   disabled = false, 
   fullWidth = false,
   iconButton = false,
-  ...props 
+  ...otherProps 
 }) => {
+  // Pass styled component props with $ prefix to prevent them from being added to the DOM
   return (
     <StyledButton
       type={type}
-      variant={variant}
-      size={size}
       disabled={disabled}
-      fullWidth={fullWidth}
-      iconButton={iconButton}
-      {...props}
+      $variant={variant}
+      $size={size}
+      $fullWidth={fullWidth}
+      $iconButton={iconButton}
+      {...otherProps}
     >
       {children}
     </StyledButton>
